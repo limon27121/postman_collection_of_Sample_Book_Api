@@ -1,0 +1,622 @@
+{
+	"info": {
+		"_postman_id": "b4197bd0-6841-4ea0-9a68-e8ca37591856",
+		"name": "Sample_Book_Api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24742376"
+	},
+	"item": [
+		{
+			"name": "Books",
+			"item": [
+				{
+					"name": "list_of_books",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"var randomId = Math.floor(Math.random() * 6) + 1;\r",
+									"pm.globals.set(\"id_global\",randomId);\r",
+									"console.log(randomId)\r",
+									"var jsonData = pm.response.json();\r",
+									"    \r",
+									"\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"test response body property\", function () {\r",
+									"   for(let i=0;i<jsonData.length;i++){\r",
+									"    pm.expect(jsonData[i]).to.haveOwnProperty(\"id\")\r",
+									"    pm.expect(jsonData[i]).to.haveOwnProperty(\"name\")\r",
+									"    pm.expect(jsonData[i]).to.haveOwnProperty(\"type\")\r",
+									"    pm.expect(jsonData[i]).to.haveOwnProperty(\"available\")\r",
+									"\r",
+									"   }\r",
+									"});\r",
+									"\r",
+									"pm.test(\"test response body property type\", function () {\r",
+									"   for(let i=0;i<jsonData.length;i++){\r",
+									"    pm.expect(jsonData[i].id).to.be.a(\"Number\")\r",
+									"    pm.expect(jsonData[i].name).to.be.a(\"String\")\r",
+									"    pm.expect(jsonData[i].type).to.be.a(\"String\")\r",
+									"    pm.expect(jsonData[i].available).to.be.a(\"Boolean\")\r",
+									"\r",
+									"   }\r",
+									"});\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Base_Url}}/books",
+							"host": [
+								"{{Base_Url}}"
+							],
+							"path": [
+								"books"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get a single book",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									" var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"check response body property\", function () {\r",
+									"   \r",
+									"    pm.expect(jsonData).to.haveOwnProperty( \"id\");\r",
+									"    pm.expect(jsonData).to.haveOwnProperty( \"name\");\r",
+									"    pm.expect(jsonData).to.haveOwnProperty( \"author\");\r",
+									"    pm.expect(jsonData).to.haveOwnProperty( \"price\");\r",
+									"    pm.expect(jsonData).to.haveOwnProperty( \"current-stock\");\r",
+									"    pm.expect(jsonData).to.haveOwnProperty( \"available\");\r",
+									"   \r",
+									"});\r",
+									"\r",
+									"pm.test(\"check response body property type\", function () {\r",
+									"   \r",
+									"    \r",
+									"    pm.expect(jsonData.id).to.be.a( \"Number\");\r",
+									"    pm.expect(jsonData.name).to.be.a( \"String\");\r",
+									"    pm.expect(jsonData.author).to.be.a( \"String\");\r",
+									"    pm.expect(jsonData.price).to.be.a( \"Number\");\r",
+									"   pm.expect(jsonData['current-stock']).to.be.a(\"number\");\r",
+									"    pm.expect(jsonData.available).to.be.a( \"Boolean\");\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Base_Url}}/books/{{id_global}}",
+							"host": [
+								"{{Base_Url}}"
+							],
+							"path": [
+								"books",
+								"{{id_global}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Order",
+			"item": [
+				{
+					"name": "Submit an order",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"var order_id=jsonData.orderId;\r",
+									"pm.globals.set(\"orderid\",order_id);\r",
+									"\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"check response body property\", function () {\r",
+									"    pm.expect(jsonData).to.haveOwnProperty(\"created\")\r",
+									"     pm.expect(jsonData).to.haveOwnProperty(\"orderId\")\r",
+									"\r",
+									"});\r",
+									"\r",
+									"pm.test(\"check response body property value type\", function () {\r",
+									"    pm.expect(jsonData.created).to.be.a(\"Boolean\")\r",
+									"     pm.expect(jsonData.orderId).to.be.a(\"String\")\r",
+									"\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"bookId\": {{id_global}},\r\n  \"customerName\": \"Limon\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Book_Url}}/orders/",
+							"host": [
+								"{{Book_Url}}"
+							],
+							"path": [
+								"orders",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get an order",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData=pm.response.json()\r",
+									"\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"check response body  property\", function () {\r",
+									"\r",
+									"    pm.expect(jsonData).to.haveOwnProperty(\"id\");\r",
+									"    pm.expect(jsonData).to.haveOwnProperty(\"bookId\");\r",
+									"    pm.expect(jsonData).to.haveOwnProperty(\"customerName\");\r",
+									"    pm.expect(jsonData).to.haveOwnProperty(\"createdBy\");\r",
+									"    pm.expect(jsonData).to.haveOwnProperty(\"quantity\");\r",
+									"    pm.expect(jsonData).to.haveOwnProperty(\"timestamp\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"check response body  property type\", function () {\r",
+									"    pm.expect(jsonData.id).to.be.a(\"String\");\r",
+									"    pm.expect(jsonData.bookId).to.be.a(\"Number\");\r",
+									"    pm.expect(jsonData.customerName).to.be.a(\"String\");\r",
+									"    pm.expect(jsonData.createdBy).to.be.a(\"String\");\r",
+									"    pm.expect(jsonData.quantity).to.be.a(\"Number\");\r",
+									"    pm.expect(jsonData.timestamp).to.be.a(\"Number\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Book_Url}}/orders/{{orderid}}",
+							"host": [
+								"{{Book_Url}}"
+							],
+							"path": [
+								"orders",
+								"{{orderid}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all orders",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									" var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"check response body  property\", function () {\r",
+									"   \r",
+									"   for(let i=0;i<jsonData.length;i++){\r",
+									"       pm.expect(jsonData[i]).to.haveOwnProperty(\"id\");\r",
+									"       pm.expect(jsonData[i]).to.haveOwnProperty(\"bookId\");\r",
+									"       pm.expect(jsonData[i]).to.haveOwnProperty(\"customerName\");\r",
+									"       pm.expect(jsonData[i]).to.haveOwnProperty(\"createdBy\");\r",
+									"       pm.expect(jsonData[i]).to.haveOwnProperty(\"quantity\");\r",
+									"       pm.expect(jsonData[i]).to.haveOwnProperty(\"timestamp\");\r",
+									"   }\r",
+									"   \r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"check response body  property  type\", function () {\r",
+									"    for(let i=0;i<jsonData.length;i++){\r",
+									"    pm.expect(jsonData[i].id).to.be.a(\"String\");\r",
+									"    pm.expect(jsonData[i].bookId).to.be.a(\"Number\");\r",
+									"    pm.expect(jsonData[i].customerName).to.be.a(\"String\");\r",
+									"    pm.expect(jsonData[i].createdBy).to.be.a(\"String\");\r",
+									"    pm.expect(jsonData[i].quantity).to.be.a(\"Number\");\r",
+									"    pm.expect(jsonData[i].timestamp).to.be.a(\"Number\");\r",
+									"    }\r",
+									"    \r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Book_Url}}/orders",
+							"host": [
+								"{{Book_Url}}"
+							],
+							"path": [
+								"orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update an order",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n     \"customerName\": \"Limon\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Book_Url}}/orders/{{orderid}}",
+							"host": [
+								"{{Book_Url}}"
+							],
+							"path": [
+								"orders",
+								"{{orderid}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete an order",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.not.have.status(404);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{Book_Url}}/orders/{{orderid}}",
+							"host": [
+								"{{Book_Url}}"
+							],
+							"path": [
+								"orders",
+								"{{orderid}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "get_status",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"let url=\"https://simple-books-api.glitch.me\"\r",
+							"\r",
+							"pm.collectionVariables.set(\"Base_Url\", url);\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							" var jsonData = pm.response.json();\r",
+							"\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"check response body property\", function () {\r",
+							"    pm.expect(jsonData).to.haveOwnProperty(\"status\");\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"check response body property type\", function () {\r",
+							"    pm.expect(jsonData.status).to.be.a(\"string\");\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\" check reponse body property value\", function () {\r",
+							"    pm.expect(jsonData.status).to.equal(\"OK\");\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{Base_Url}}/status",
+					"host": [
+						"{{Base_Url}}"
+					],
+					"path": [
+						"status"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get_access token",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"function generateRandomString(length) {\r",
+							"  let result = '';\r",
+							"\r",
+							"  for (let i = 0; i < length; i++) {\r",
+							"    const randomCharCode = Math.random() < 0.5 ?\r",
+							"      Math.floor(Math.random() * (90 - 65 + 1)) + 65 :  // Uppercase letters \r",
+							"      Math.floor(Math.random() * (122 - 97 + 1)) + 97;  // Lowercase letters \r",
+							"\r",
+							"    result += String.fromCharCode(randomCharCode);\r",
+							"  }\r",
+							"\r",
+							"  return result;\r",
+							"}\r",
+							"\r",
+							"let random_name=generateRandomString(8);\r",
+							"let random_email=random_name+\"@gmail.com\";\r",
+							"\r",
+							"pm.collectionVariables.set(\"Name\", random_name);\r",
+							"pm.collectionVariables.set(\"Email\", random_email);\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							" var jsonData = pm.response.json();\r",
+							" let token=jsonData.accessToken;\r",
+							" console.log(token)\r",
+							"\r",
+							"\r",
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Status code is not 409\", function () {\r",
+							"    pm.response.to.not.have.status(409);\r",
+							"});\r",
+							"pm.test(\"check response body property\", function () {\r",
+							"   pm.expect(jsonData).to.haveOwnProperty(\"accessToken\")\r",
+							"});\r",
+							"\r",
+							"pm.test(\"check response body property value type\", function () {\r",
+							"   pm.expect(jsonData.accessToken).to.be.a(\"String\")\r",
+							"});\r",
+							"\r",
+							"pm.test(\"check response body property value\", function () {\r",
+							"     pm.expect(jsonData.accessToken).to.not.empty\r",
+							"   pm.expect(jsonData.accessToken).to.eql(token)\r",
+							"  \r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"clientName\": \"{{Name}}\",\r\n   \"clientEmail\": \"{{Email}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Book_Url}}//api-clients/",
+					"host": [
+						"{{Book_Url}}"
+					],
+					"path": [
+						"",
+						"api-clients",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "Base_Url",
+			"value": ""
+		},
+		{
+			"key": "Name",
+			"value": ""
+		},
+		{
+			"key": "Email",
+			"value": ""
+		},
+		{
+			"key": "access_token",
+			"value": ""
+		}
+	]
+}
