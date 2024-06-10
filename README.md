@@ -126,3 +126,7 @@ The response body will contain the access token. The access token is valid for 7
 **Possible errors**
 
 Status code 409 - "API client already registered." Try changing the values for `clientEmail` and `clientName` to something else.
+
+
+## Documentation
+https://documenter.getpostman.com/view/24742376/2sA35Bb4Fi
